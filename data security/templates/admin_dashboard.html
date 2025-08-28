@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div class="nav">
+    <div><a href="{{ url_for('index') }}">← Home</a></div>
+    <div><strong>Logged in as:</strong> {{ admin_name }}</div>
+    <div><a href="{{ url_for('admin_logout') }}">Logout</a></div>
+  </div>
+
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% if msgs %}
+      {% for cat, msg in msgs %}
+        <div class="flash {{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="table-wrap">
+    <h2>Employees</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:70px;">ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Encrypted Password</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in employees %}
+        <tr>
+          <td>{{ e[0] }}</td>
+          <td>{{ e[1] }}</td>
+          <td>{{ e[2] }}</td>
+          <td class="code">{{ e[3] }}</td>
+        </tr>
+        {% endfor %}
+        {% if not employees %}
+        <tr><td colspan="4" style="text-align:center; color:#888;">No employees yet.</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+
+    <div style="margin-top:20px; display:flex; gap:10px; justify-content:flex-end;">
+      <a class="btn" style="max-width:260px;" href="{{ url_for('popup_permission') }}">Permission Toggle</a>
+    </div>
+  </div>
+</body>
+</html>

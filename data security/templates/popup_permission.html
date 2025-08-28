@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Permission Check</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% if msgs %}
+      {% for cat, msg in msgs %}
+        <div class="flash {{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="container">
+    <h2>Permission Toggle</h2>
+    <p class="subtitle">Enter an encrypted value to verify permission.</p>
+    <form method="POST">
+      <input type="text" name="enc_value" placeholder="Paste encrypted value here" required>
+      <button type="submit">Verify</button>
+    </form>
+
+    {% if decrypted_value %}
+      <p class="subtitle" style="margin-top:14px;">
+        Decrypted value: <strong>{{ decrypted_value }}</strong>
+      </p>
+    {% endif %}
+
+    <div class="link-row">
+      <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+      <a href="{{ url_for('index') }}">Home</a>
+    </div>
+  </div>
+</body>
+</html>
